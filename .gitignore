@@ -1,0 +1,17 @@
+.DS_Store
+
+.idea/
+.vscode/
+vendor/
+
+.env
+cert
+*.crt
+*.pem
+
+## Coverage output test
+repository/*.out
+service/*.out
+*.out
+note.md
+*.json

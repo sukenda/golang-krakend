@@ -1,0 +1,14 @@
+type: google.api.Service
+config_version: 3
+
+http:
+  rules:
+    - selector: auth.AuthService.Register
+      post: "/auth/register"
+      body: "*"
+    - selector: auth.AuthService.Login
+      post: "/auth/login"
+      body: "*"
+    - selector: auth.AuthService.Validate
+      post: "/auth/validate"
+      body: "*"

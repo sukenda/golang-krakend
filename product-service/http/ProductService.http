@@ -1,0 +1,8 @@
+POST http://localhost:8081/product/create
+Content-Type: application/json
+
+{
+  "name": "Mie Rebus 01",
+  "price": 1000,
+  "stock": 10
+}
