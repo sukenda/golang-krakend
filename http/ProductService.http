@@ -4,15 +4,16 @@ Content-Type: application/json
 {
   "name": "Mie Rebus 01",
   "price": 1000,
-  "stock": 1000
+  "stock": 100
 }
 
 ### KRAKEND GATEWAY
 POST http://localhost:8080/v1/product/create
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTMxNTQ2NTgsImlzcyI6ImF1dGgtc2VydmljZSIsIklkIjozLCJFbWFpbCI6InN1a2VuZGFAZ21haWwuY29tIn0._0BVXE8yzMbSvimRIzUhy8r01lp1Qi_1iW6u7S4-1PY
 
 {
-  "name": "Mie Rebus 01",
+  "name": "KRAKEND GATEWAY",
   "price": 1000,
-  "stock": 10
+  "stock": 100
 }

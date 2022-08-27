@@ -1,9 +1,9 @@
-version: '3.6'
+version: '3.7'
 services:
 
 # Krakend Gateway
   krakend:
-    container_name: krakend_gateway
+    container_name: krakend
     build:
       context: krakend
       dockerfile: Dockerfile
@@ -18,7 +18,7 @@ services:
 
 # Postgres Service
   postgres:
-    container_name: postgres_database
+    container_name: postgres
     image: postgres
     environment:
       POSTGRES_USER: sukenda
@@ -86,7 +86,7 @@ services:
 
 networks:
   backend:
-    external: true
+    driver: bridge
 
 volumes:
   postgres:

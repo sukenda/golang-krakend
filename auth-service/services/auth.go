@@ -2,10 +2,12 @@ package services
 
 import (
 	"context"
+	"encoding/base64"
 	database "github.com/sukenda/golang-krakend/auth-service/database"
 	models "github.com/sukenda/golang-krakend/auth-service/model"
 	"github.com/sukenda/golang-krakend/auth-service/proto"
 	"github.com/sukenda/golang-krakend/auth-service/utils"
+	"google.golang.org/protobuf/types/known/emptypb"
 	"net/http"
 )
 
@@ -84,5 +86,13 @@ func (s *AuthService) Validate(ctx context.Context, req *proto.ValidateRequest) 
 	return &proto.ValidateResponse{
 		Status: http.StatusOK,
 		UserId: user.Id,
+	}, nil
+}
+
+func (s *AuthService) JWKValidate(ctx context.Context, req *emptypb.Empty) (*proto.JWKValidateResponse, error) {
+	return &proto.JWKValidateResponse{
+		Alg: "RS256",
+		Typ: "JWT",
+		Kid: base64.StdEncoding.EncodeToString([]byte(s.Jwt.SecretKey)),
 	}, nil
 }

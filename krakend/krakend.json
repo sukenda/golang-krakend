@@ -4,22 +4,15 @@
   "timeout": "3000ms",
   "cache_ttl": "300s",
   "name": "go-microservices",
-  "extra_config": {
-    "github_com/devopsfaith/krakend-gologging": {
-      "level": "INFO",
-      "prefix": "[KRAKEND]",
-      "syslog": false,
-      "stdout": true,
-      "format": "default"
-    },
-    "github_com/devopsfaith/krakend-metrics": {
-      "collection_time": "30s",
-      "listen_address": ":8080"
-    }
+  "plugin": {
+    "pattern": ".so",
+    "folder": "./tmp/plugins"
   },
+  "extra_config": {},
   "endpoints": [
     {
-      "endpoint": "/v1/auth",
+      "endpoint": "/v1/auth/login",
+      "method": "POST",
       "backend": [
         {
           "url_pattern": "/auth/login",
@@ -27,16 +20,13 @@
           "host": [
             "http://auth-service:8081"
           ],
-          "extra_config": {
-            "github.com/devopsfaith/krakend/http": {
-              "return_error_details": "auth"
-            }
-          }
+          "extra_config": {}
         }
       ]
     },
     {
-      "endpoint": "/v1/auth",
+      "endpoint": "/v1/auth/register",
+      "method": "POST",
       "backend": [
         {
           "url_pattern": "/auth/register",
@@ -44,16 +34,13 @@
           "host": [
             "http://auth-service:8081"
           ],
-          "extra_config": {
-            "github.com/devopsfaith/krakend/http": {
-              "return_error_details": "auth"
-            }
-          }
+          "extra_config": {}
         }
       ]
     },
     {
-      "endpoint": "/v1/auth",
+      "endpoint": "/v1/auth/validate",
+      "method": "POST",
       "backend": [
         {
           "url_pattern": "/auth/validate",
@@ -61,16 +48,13 @@
           "host": [
             "http://auth-service:8081"
           ],
-          "extra_config": {
-            "github.com/devopsfaith/krakend/http": {
-              "return_error_details": "auth"
-            }
-          }
+          "extra_config": {}
         }
       ]
     },
     {
-      "endpoint": "/v1/order",
+      "endpoint": "/v1/order/create",
+      "method": "POST",
       "backend": [
         {
           "url_pattern": "/order/create",
@@ -82,7 +66,18 @@
       ]
     },
     {
-      "endpoint": "/v1/product",
+      "endpoint": "/v1/product/create",
+      "input_headers": ["Authorization"],
+      "method": "POST",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "RS256",
+          "jwk_url": "http://auth-service:8081/auth/jwk",
+          "cache": true,
+          "disable_jwk_security": true,
+          "operation_debug": true
+        }
+      },
       "backend": [
         {
           "url_pattern": "/product/create",
@@ -90,14 +85,26 @@
           "host": [
             "http://product-service:8083"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/product/find-one",
+      "method": "GET",
+      "backend": [
         {
           "url_pattern": "/product/find-one",
           "method": "GET",
           "host": [
             "http://product-service:8083"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/product/decrease-stock",
+      "method": "POST",
+      "backend": [
         {
           "url_pattern": "/product/decrease-stock",
           "method": "POST",

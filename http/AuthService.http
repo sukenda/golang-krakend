@@ -1,3 +1,7 @@
+POST http://localhost:8081/auth/jwk
+Content-Type: application/json
+
+###
 POST http://localhost:8081/auth/register
 Content-Type: application/json
 

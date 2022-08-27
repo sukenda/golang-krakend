@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "proto/auth.proto",
+    "title": "proto/product.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "AuthService"
+      "name": "ProductService"
     }
   ],
   "consumes": [
@@ -16,14 +16,14 @@
     "application/json"
   ],
   "paths": {
-    "/auth/jwk": {
+    "/product/create": {
       "post": {
-        "operationId": "AuthService_JWKValidate",
+        "operationId": "ProductService_CreateProduct",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/authJWKValidateResponse"
+              "$ref": "#/definitions/productCreateProductResponse"
             }
           },
           "default": {
@@ -39,24 +39,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "type": "object",
-              "properties": {}
+              "$ref": "#/definitions/productCreateProductRequest"
             }
           }
         ],
         "tags": [
-          "AuthService"
+          "ProductService"
         ]
       }
     },
-    "/auth/login": {
+    "/product/decrease-stock": {
       "post": {
-        "operationId": "AuthService_Login",
+        "operationId": "ProductService_DecreaseStock",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/authLoginResponse"
+              "$ref": "#/definitions/productDecreaseStockResponse"
             }
           },
           "default": {
@@ -72,23 +71,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/authLoginRequest"
+              "$ref": "#/definitions/productDecreaseStockRequest"
             }
           }
         ],
         "tags": [
-          "AuthService"
+          "ProductService"
         ]
       }
     },
-    "/auth/register": {
-      "post": {
-        "operationId": "AuthService_Register",
+    "/product/find-one": {
+      "get": {
+        "operationId": "ProductService_FindOne",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/authRegisterResponse"
+              "$ref": "#/definitions/productFindOneResponse"
             }
           },
           "default": {
@@ -100,79 +99,37 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/authRegisterRequest"
-            }
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
-          "AuthService"
-        ]
-      }
-    },
-    "/auth/validate": {
-      "post": {
-        "operationId": "AuthService_Validate",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/authValidateResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/authValidateRequest"
-            }
-          }
-        ],
-        "tags": [
-          "AuthService"
+          "ProductService"
         ]
       }
     }
   },
   "definitions": {
-    "authJWKValidateResponse": {
+    "productCreateProductRequest": {
       "type": "object",
       "properties": {
-        "alg": {
+        "name": {
           "type": "string"
         },
-        "typ": {
-          "type": "string"
+        "stock": {
+          "type": "string",
+          "format": "int64"
         },
-        "kid": {
-          "type": "string"
+        "price": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },
-    "authLoginRequest": {
-      "type": "object",
-      "properties": {
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        }
-      }
-    },
-    "authLoginResponse": {
+    "productCreateProductResponse": {
       "type": "object",
       "properties": {
         "status": {
@@ -182,23 +139,26 @@
         "error": {
           "type": "string"
         },
-        "token": {
-          "type": "string"
+        "id": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },
-    "authRegisterRequest": {
+    "productDecreaseStockRequest": {
       "type": "object",
       "properties": {
-        "email": {
-          "type": "string"
+        "id": {
+          "type": "string",
+          "format": "int64"
         },
-        "password": {
-          "type": "string"
+        "orderId": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },
-    "authRegisterResponse": {
+    "productDecreaseStockResponse": {
       "type": "object",
       "properties": {
         "status": {
@@ -210,15 +170,27 @@
         }
       }
     },
-    "authValidateRequest": {
+    "productFindOneData": {
       "type": "object",
       "properties": {
-        "token": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
           "type": "string"
+        },
+        "stock": {
+          "type": "string",
+          "format": "int64"
+        },
+        "price": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },
-    "authValidateResponse": {
+    "productFindOneResponse": {
       "type": "object",
       "properties": {
         "status": {
@@ -228,9 +200,8 @@
         "error": {
           "type": "string"
         },
-        "userId": {
-          "type": "string",
-          "format": "int64"
+        "data": {
+          "$ref": "#/definitions/productFindOneData"
         }
       }
     },
