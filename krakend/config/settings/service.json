@@ -1,0 +1,18 @@
+{
+  "port": 8090,
+  "default_hosts": [
+    "https://catalog-api-01.srv",
+    "https://catalog-api-02.srv",
+    "https://catalog-api-03.srv"
+  ],
+  "extra_config": {
+    "security/http": {
+      "allowed_hosts": [],
+      "ssl_proxy_headers": {
+        "X-Forwarded-Proto": "https"
+      },
+      "ssl_certificate": "/opt/rsa.cert",
+      "ssl_private_key": "/opt/rsa.key"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "auth": [
+    "endpoint": "/auth",
+    "backend": [
+      {
+        "url_pattern": "/register",
+        "method": "POST",
+        "host": [
+          "http://localhost:8081"
+        ]
+      },
+      {
+        "url_pattern": "/login",
+        "method": "POST",
+        "host": [
+          "http://localhost:8081"
+        ]
+      },
+      {
+        "url_pattern": "/validate",
+        "method": "POST",
+        "host": [
+          "http://localhost:8081"
+        ]
+      }
+    ]
+  ]
+}

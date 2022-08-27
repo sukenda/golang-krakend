@@ -44,7 +44,7 @@ func main() {
 	}
 
 	// Create the main listener.
-	listener, err := net.Listen("tcp", c.Port)
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%v", c.Port))
 	if err != nil {
 		log.Fatal(err)
 	}

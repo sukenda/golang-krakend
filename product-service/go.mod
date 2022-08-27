@@ -1,6 +1,6 @@
 module github.com/sukenda/golang-krakend/product-service
 
-go 1.17
+go 1.16
 
 require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.2

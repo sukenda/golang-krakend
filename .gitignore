@@ -14,4 +14,3 @@ repository/*.out
 service/*.out
 *.out
 note.md
-*.json

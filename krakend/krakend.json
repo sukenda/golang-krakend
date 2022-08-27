@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "port": {{ .service.port }},
+  "extra_config": {{ marshal .service.extra_config }},
+  "endpoints": [
+
+  ]
+}

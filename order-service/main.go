@@ -38,7 +38,7 @@ func main() {
 	h := db.Init(c.DBUrl)
 
 	// Create the main listener.
-	listener, err := net.Listen("tcp", c.Port)
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%v", c.Port))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -67,7 +67,7 @@ func main() {
 	// Register gRPC server endpoint
 	gwmux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err = proto.RegisterOrderServiceHandlerFromEndpoint(ctx, gwmux, fmt.Sprintf("localhost%v", c.Port), opts)
+	err = proto.RegisterOrderServiceHandlerFromEndpoint(ctx, gwmux, fmt.Sprintf("localhost:%v", c.Port), opts)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -30,15 +30,15 @@ func init() {
 }
 
 func main() {
-	loadConfig, err := config.LoadConfig()
+	c, err := config.LoadConfig()
 	if err != nil {
-		log.Fatalln("Failed at loadConfig", err)
+		log.Fatalln("Failed at config", err)
 	}
 
-	postgre := database.Init(loadConfig.DBUrl)
+	postgre := database.Init(c.DBUrl)
 
 	// Create the main listener.
-	listener, err := net.Listen("tcp", loadConfig.Port)
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%v", c.Port))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -65,13 +65,13 @@ func main() {
 	// Register gRPC server endpoint
 	gwmux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err = proto.RegisterProductServiceHandlerFromEndpoint(ctx, gwmux, fmt.Sprintf("localhost%v", loadConfig.Port), opts)
+	err = proto.RegisterProductServiceHandlerFromEndpoint(ctx, gwmux, fmt.Sprintf("localhost:%v", c.Port), opts)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	httpServer := &http.Server{
-		Addr:    loadConfig.Port,
+		Addr:    c.Port,
 		Handler: gwmux,
 	}
 

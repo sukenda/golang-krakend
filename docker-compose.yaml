@@ -1,0 +1,77 @@
+version: '3.6'
+services:
+
+  # Postgres Service
+  postgres:
+    container_name: postgres_database
+    image: postgres
+    environment:
+      POSTGRES_USER: sukenda
+      POSTGRES_PASSWORD: sukenda
+      POSTGRES_DB: sukenda
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - backend-krakend
+    restart: unless-stopped
+
+  # Auth Service
+  auth-service:
+    container_name: auth-service
+    build:
+      context: auth-service # this representation go project name
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      PORT: 8081
+      DB_URL: postgres://sukenda:sukenda@postgres:5432/sukenda
+      JWT_SECRET_KEY: r43t18sc
+    networks:
+      - backend-krakend
+    depends_on:
+      - postgres
+
+# Order Service
+  order-service:
+    container_name: order-service
+    build:
+      context: order-service # this representation go project name
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      PORT: 8082
+      DB_URL: postgres://sukenda:sukenda@postgres:5432/sukenda
+      PRODUCT_SVC_URL: product-service:8083
+    depends_on:
+      - postgres
+      - product-service
+    networks:
+      - backend-krakend
+
+# Product Service
+  product-service:
+    container_name: product-service
+    build:
+      context: product-service # this representation go project name
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      PORT: 8082
+      DB_URL: postgres://sukenda:sukenda@postgres:5432/sukenda
+    networks:
+      - backend-krakend
+    depends_on:
+      - postgres
+
+
+networks:
+  backend-krakend:
+
+volumes:
+  postgres:
