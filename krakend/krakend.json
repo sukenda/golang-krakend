@@ -1,8 +1,111 @@
 {
   "version": 3,
-  "port": {{ .service.port }},
-  "extra_config": {{ marshal .service.extra_config }},
+  "port": 8080,
+  "timeout": "3000ms",
+  "cache_ttl": "300s",
+  "name": "go-microservices",
+  "extra_config": {
+    "github_com/devopsfaith/krakend-gologging": {
+      "level": "INFO",
+      "prefix": "[KRAKEND]",
+      "syslog": false,
+      "stdout": true,
+      "format": "default"
+    },
+    "github_com/devopsfaith/krakend-metrics": {
+      "collection_time": "30s",
+      "listen_address": ":8080"
+    }
+  },
   "endpoints": [
-
+    {
+      "endpoint": "/v1/auth",
+      "backend": [
+        {
+          "url_pattern": "/auth/login",
+          "method": "POST",
+          "host": [
+            "http://auth-service:8081"
+          ],
+          "extra_config": {
+            "github.com/devopsfaith/krakend/http": {
+              "return_error_details": "auth"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/auth",
+      "backend": [
+        {
+          "url_pattern": "/auth/register",
+          "method": "POST",
+          "host": [
+            "http://auth-service:8081"
+          ],
+          "extra_config": {
+            "github.com/devopsfaith/krakend/http": {
+              "return_error_details": "auth"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/auth",
+      "backend": [
+        {
+          "url_pattern": "/auth/validate",
+          "method": "POST",
+          "host": [
+            "http://auth-service:8081"
+          ],
+          "extra_config": {
+            "github.com/devopsfaith/krakend/http": {
+              "return_error_details": "auth"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/order",
+      "backend": [
+        {
+          "url_pattern": "/order/create",
+          "method": "POST",
+          "host": [
+            "http://order-service:8082"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/product",
+      "backend": [
+        {
+          "url_pattern": "/product/create",
+          "method": "POST",
+          "host": [
+            "http://product-service:8083"
+          ]
+        },
+        {
+          "url_pattern": "/product/find-one",
+          "method": "GET",
+          "host": [
+            "http://product-service:8083"
+          ]
+        },
+        {
+          "url_pattern": "/product/decrease-stock",
+          "method": "POST",
+          "host": [
+            "http://product-service:8083"
+          ]
+        }
+      ]
+    }
   ]
 }

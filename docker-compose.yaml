@@ -1,7 +1,22 @@
 version: '3.6'
 services:
 
-  # Postgres Service
+# Krakend Gateway
+  krakend:
+    container_name: krakend_gateway
+    build:
+      context: krakend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    depends_on:
+      - auth-service
+      - product-service
+      - order-service
+
+# Postgres Service
   postgres:
     container_name: postgres_database
     image: postgres
@@ -15,10 +30,10 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - backend-krakend
+      - backend
     restart: unless-stopped
 
-  # Auth Service
+# Auth Service
   auth-service:
     container_name: auth-service
     build:
@@ -31,7 +46,7 @@ services:
       DB_URL: postgres://sukenda:sukenda@postgres:5432/sukenda
       JWT_SECRET_KEY: r43t18sc
     networks:
-      - backend-krakend
+      - backend
     depends_on:
       - postgres
 
@@ -51,7 +66,7 @@ services:
       - postgres
       - product-service
     networks:
-      - backend-krakend
+      - backend
 
 # Product Service
   product-service:
@@ -62,16 +77,16 @@ services:
     ports:
       - "8083:8083"
     environment:
-      PORT: 8082
+      PORT: 8083
       DB_URL: postgres://sukenda:sukenda@postgres:5432/sukenda
     networks:
-      - backend-krakend
+      - backend
     depends_on:
       - postgres
 
-
 networks:
-  backend-krakend:
+  backend:
+    external: true
 
 volumes:
   postgres:

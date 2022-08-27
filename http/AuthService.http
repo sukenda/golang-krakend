@@ -1,0 +1,47 @@
+POST http://localhost:8081/auth/register
+Content-Type: application/json
+
+{
+  "email": "sukenda@gmail.com",
+  "password": "sukenda"
+}
+
+###
+POST http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+  "email": "sukenda@gmail.com",
+  "password": "sukenda"
+}
+
+### KRAKEND GATEWAY
+
+GET http://localhost:8080/__health
+
+###
+
+POST http://localhost:8080/v1/auth/register
+Content-Type: application/json
+
+{
+  "email": "soekenda09@gmail.com",
+  "password": "sukenda"
+}
+
+###
+POST http://localhost:8080/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "soekenda09@gmail.com",
+  "password": "sukenda"
+}
+
+###
+POST http://localhost:8080/v1/auth/validate
+Content-Type: application/json
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTMxMjQ2NzAsImlzcyI6ImF1dGgtc2VydmljZSIsIklkIjoxLCJFbWFpbCI6InNvZWtlbmRhMDlAZ21haWwuY29tIn0.2UnvUE8jBShJjsGT-1qBQtjWq2TFZsfkjkZ8JM7ayg4"
+}

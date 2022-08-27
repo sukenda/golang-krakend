@@ -1,0 +1,19 @@
+POST http://localhost:8082/order/create
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "productId": 2,
+  "quantity": 1
+}
+
+### KRAKEND GATEWAY
+
+POST http://localhost:8080/v1/order/create
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "productId": 1000,
+  "quantity": 10
+}

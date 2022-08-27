@@ -6,3 +6,7 @@ compose-up:
 
 compose-down:
 	docker-compose -f docker-compose.yaml down
+
+compose-restart:
+	docker-compose -f docker-compose.yaml down
+	docker-compose -f docker-compose.yaml up -d

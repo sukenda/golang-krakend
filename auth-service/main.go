@@ -72,7 +72,7 @@ func main() {
 	// Register gRPC server endpoint
 	gwmux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err = proto.RegisterAuthServiceHandlerFromEndpoint(ctx, gwmux, fmt.Sprintf("localhost%v", c.Port), opts)
+	err = proto.RegisterAuthServiceHandlerFromEndpoint(ctx, gwmux, fmt.Sprintf("localhost:%v", c.Port), opts)
 	if err != nil {
 		log.Fatal(err)
 	}
