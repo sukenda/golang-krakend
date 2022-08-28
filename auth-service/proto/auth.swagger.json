@@ -156,6 +156,12 @@
         "typ": {
           "type": "string"
         },
+        "kty": {
+          "type": "string"
+        },
+        "use": {
+          "type": "string"
+        },
         "kid": {
           "type": "string"
         }

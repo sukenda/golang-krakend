@@ -38,6 +38,7 @@ func main() {
 
 	h := db.Init(c.DBUrl)
 	jwt := utils.JwtWrapper{
+		Kid:             "MDNGMjU2M0U3RERFQUEwOUUzQUMwQ0NBN0Y1RUY0OEIxNTRDM0IxMw",
 		SecretKey:       c.JWTSecretKey,
 		Issuer:          "auth-service",
 		ExpirationHours: 24 * 365,

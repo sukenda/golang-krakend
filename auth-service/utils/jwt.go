@@ -9,6 +9,7 @@ import (
 )
 
 type JwtWrapper struct {
+	Kid             string
 	SecretKey       string
 	Issuer          string
 	ExpirationHours int64
@@ -18,9 +19,6 @@ type jwtClaims struct {
 	jwt.StandardClaims
 	Id    int64  `json:"id"`
 	Email string `json:"email"`
-	Alg   string `json:"alg"`
-	Typ   string `json:"typ"`
-	Kid   string `json:"kid"`
 }
 
 func (w *JwtWrapper) GenerateToken(user models.User) (signedToken string, err error) {
@@ -31,12 +29,10 @@ func (w *JwtWrapper) GenerateToken(user models.User) (signedToken string, err er
 		},
 		Id:    user.Id,
 		Email: user.Email,
-		Alg:   "HS256",
-		Typ:   "JWT",
-		Kid:   w.SecretKey,
 	}
 
 	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), claims)
+	token.Header["kid"] = w.Kid // This used for krakend and must same with kid on url /auth/jwk
 
 	signedToken, err = token.SignedString([]byte(w.SecretKey))
 

@@ -57,5 +57,7 @@ message JWKValidateResponse {
 message JWK {
   string alg = 1;
   string typ = 2;
-  string kid = 3;
+  string kty = 3;
+  string use = 4;
+  string kid = 5;
 }

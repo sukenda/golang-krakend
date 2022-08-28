@@ -92,9 +92,11 @@ func (s *AuthService) JWKValidate(ctx context.Context, req *emptypb.Empty) (*pro
 	return &proto.JWKValidateResponse{
 		Keys: []*proto.JWK{
 			{
-				Alg: "RS256",
+				Alg: "HS256",
 				Typ: "JWT",
-				Kid: s.JwtWrapper.SecretKey,
+				Kty: "RSA",
+				Use: "sig",
+				Kid: s.JwtWrapper.Kid,
 			},
 		},
 	}, nil
