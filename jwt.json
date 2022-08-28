@@ -1,9 +1,0 @@
-{
-  "keys": [
-    {
-      "alg": "RS256",
-      "typ": "JWT",
-      "kid": "cjQzdDE4c2M="
-    }
-  ]
-}
