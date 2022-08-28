@@ -16,21 +16,27 @@ type JwtWrapper struct {
 
 type jwtClaims struct {
 	jwt.StandardClaims
-	Id    int64
-	Email string
+	Id    int64  `json:"id"`
+	Email string `json:"email"`
+	Alg   string `json:"alg"`
+	Typ   string `json:"typ"`
+	Kid   string `json:"kid"`
 }
 
 func (w *JwtWrapper) GenerateToken(user models.User) (signedToken string, err error) {
 	claims := &jwtClaims{
-		Id:    user.Id,
-		Email: user.Email,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(w.ExpirationHours)).Unix(),
 			Issuer:    w.Issuer,
 		},
+		Id:    user.Id,
+		Email: user.Email,
+		Alg:   "HS256",
+		Typ:   "JWT",
+		Kid:   w.SecretKey,
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), claims)
 
 	signedToken, err = token.SignedString([]byte(w.SecretKey))
 

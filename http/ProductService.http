@@ -10,7 +10,7 @@ Content-Type: application/json
 ### KRAKEND GATEWAY
 POST http://localhost:8080/v1/product/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTMxNTQ2NTgsImlzcyI6ImF1dGgtc2VydmljZSIsIklkIjozLCJFbWFpbCI6InN1a2VuZGFAZ21haWwuY29tIn0._0BVXE8yzMbSvimRIzUhy8r01lp1Qi_1iW6u7S4-1PY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTMyMjg2NzUsImlzcyI6ImF1dGgtc2VydmljZSIsImlkIjoxLCJlbWFpbCI6InNvZWtlbmRhMDlAZ21haWwuY29tIiwiYWxnIjoiSFMyNTYiLCJ0eXAiOiJKV1QiLCJraWQiOiJyNDN0MThzYyJ9.oaxl5cigql3bWYCSgvsL_FofEiLJ-BErIbe1Y8p3COM
 
 {
   "name": "KRAKEND GATEWAY",

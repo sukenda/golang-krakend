@@ -71,7 +71,7 @@
       "method": "POST",
       "extra_config": {
         "auth/validator": {
-          "alg": "RS256",
+          "alg": "HS256",
           "jwk_url": "http://auth-service:8081/auth/jwk",
           "cache": true,
           "disable_jwk_security": true,

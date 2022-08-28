@@ -147,7 +147,7 @@
     }
   },
   "definitions": {
-    "authJWKValidateResponse": {
+    "authJWK": {
       "type": "object",
       "properties": {
         "alg": {
@@ -158,6 +158,17 @@
         },
         "kid": {
           "type": "string"
+        }
+      }
+    },
+    "authJWKValidateResponse": {
+      "type": "object",
+      "properties": {
+        "keys": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/authJWK"
+          }
         }
       }
     },

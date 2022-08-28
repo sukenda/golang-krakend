@@ -57,8 +57,8 @@ func main() {
 	httpL := cMux.Match(cmux.HTTP1Fast())
 
 	authService := services.AuthService{
-		Database: h,
-		Jwt:      jwt,
+		Database:   h,
+		JwtWrapper: jwt,
 	}
 
 	// Create your protocol servers.

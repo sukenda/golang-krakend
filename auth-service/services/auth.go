@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"encoding/base64"
 	database "github.com/sukenda/golang-krakend/auth-service/database"
 	models "github.com/sukenda/golang-krakend/auth-service/model"
 	"github.com/sukenda/golang-krakend/auth-service/proto"
@@ -13,8 +12,8 @@ import (
 
 type AuthService struct {
 	proto.UnimplementedAuthServiceServer
-	Database database.Handler
-	Jwt      utils.JwtWrapper
+	Database   database.Handler
+	JwtWrapper utils.JwtWrapper
 }
 
 func (s *AuthService) Register(ctx context.Context, req *proto.RegisterRequest) (*proto.RegisterResponse, error) {
@@ -56,7 +55,7 @@ func (s *AuthService) Login(ctx context.Context, req *proto.LoginRequest) (*prot
 		}, nil
 	}
 
-	token, _ := s.Jwt.GenerateToken(user)
+	token, _ := s.JwtWrapper.GenerateToken(user)
 
 	return &proto.LoginResponse{
 		Status: http.StatusOK,
@@ -65,7 +64,7 @@ func (s *AuthService) Login(ctx context.Context, req *proto.LoginRequest) (*prot
 }
 
 func (s *AuthService) Validate(ctx context.Context, req *proto.ValidateRequest) (*proto.ValidateResponse, error) {
-	claims, err := s.Jwt.ValidateToken(req.Token)
+	claims, err := s.JwtWrapper.ValidateToken(req.Token)
 
 	if err != nil {
 		return &proto.ValidateResponse{
@@ -91,8 +90,12 @@ func (s *AuthService) Validate(ctx context.Context, req *proto.ValidateRequest) 
 
 func (s *AuthService) JWKValidate(ctx context.Context, req *emptypb.Empty) (*proto.JWKValidateResponse, error) {
 	return &proto.JWKValidateResponse{
-		Alg: "RS256",
-		Typ: "JWT",
-		Kid: base64.StdEncoding.EncodeToString([]byte(s.Jwt.SecretKey)),
+		Keys: []*proto.JWK{
+			{
+				Alg: "RS256",
+				Typ: "JWT",
+				Kid: s.JwtWrapper.SecretKey,
+			},
+		},
 	}, nil
 }
