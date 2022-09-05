@@ -18,22 +18,6 @@ services:
       - backend
     restart: unless-stopped
 
-# Krakend Gateway
-  krakend:
-    container_name: krakend
-    build:
-      context: krakend
-      dockerfile: Dockerfile
-    volumes:
-      - ./krakend:/etc/krakend
-    ports:
-      - "8080:8080"
-    networks:
-      - backend
-    depends_on:
-      - auth-service
-      - product-service
-      - order-service
 
 # Auth Service
   auth-service:
@@ -52,6 +36,38 @@ services:
     depends_on:
       - postgres
 
+  # Krakend Gateway
+  krakend:
+    container_name: krakend
+    build:
+      context: krakend
+      dockerfile: Dockerfile
+    volumes:
+      - ./krakend:/etc/krakend
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+#    depends_on:
+#      - auth-service
+#      - product-service
+#      - order-service
+
+#Product Service
+  product-service:
+    container_name: product-service
+    build:
+      context: product-service # this representation go project name
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      PORT: 8083
+      DB_URL: postgres://sukenda:sukenda@postgres:5432/sukenda
+    networks:
+      - backend
+    depends_on:
+      - postgres
 # Order Service
   order-service:
     container_name: order-service
@@ -70,21 +86,6 @@ services:
     networks:
       - backend
 
-# Product Service
-  product-service:
-    container_name: product-service
-    build:
-      context: product-service # this representation go project name
-      dockerfile: Dockerfile
-    ports:
-      - "8083:8083"
-    environment:
-      PORT: 8083
-      DB_URL: postgres://sukenda:sukenda@postgres:5432/sukenda
-    networks:
-      - backend
-    depends_on:
-      - postgres
 
 networks:
   backend:

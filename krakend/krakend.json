@@ -1,5 +1,9 @@
 {
   "version": 3,
+  "plugin": {
+    "pattern":".so",
+    "folder": "/opt/krakend/plugins/"
+  },
   "port": 8080,
   "timeout": "3000ms",
   "cache_ttl": "300s",
@@ -107,6 +111,14 @@
     {
       "endpoint": "/v1/product/find-one",
       "method": "GET",
+      "extra_config": {
+        "auth/validator": {
+          "alg": "HS256",
+          "jwk_url": "http://auth-service:8081/auth/jwk",
+          "disable_jwk_security": true,
+          "key_identify_strategy": "kid"
+        }
+      },
       "backend": [
         {
           "url_pattern": "/product/find-one",

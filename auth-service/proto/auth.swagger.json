@@ -17,7 +17,7 @@
   ],
   "paths": {
     "/auth/jwk": {
-      "post": {
+      "get": {
         "operationId": "AuthService_JWKValidate",
         "responses": {
           "200": {
@@ -33,17 +33,6 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          }
-        ],
         "tags": [
           "AuthService"
         ]
