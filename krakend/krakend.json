@@ -4,24 +4,36 @@
   "timeout": "3000ms",
   "cache_ttl": "300s",
   "name": "go-microservices",
-  "plugin": {
-    "pattern":".so",
-    "folder": "/etc/krakend/plugins/"
+  "extra_config": {
+    "telemetry/logging": {
+      "level": "DEBUG",
+      "prefix": "[KRAKEND]",
+      "syslog": true,
+      "stdout": true
+    }
   },
-  "extra_config": {},
   "endpoints": [
     {
       "endpoint": "/v1/auth/login",
       "method": "POST",
       "backend": [
         {
-          "url_pattern": "/auth/login",
-          "method": "POST",
+          "url_pattern": "/krakendio/playground-community/master/data/token.json",
+          "method": "GET",
           "host": [
-            "http://auth-service:8081"
+            "https://raw.githubusercontent.com"
           ]
         }
-      ]
+      ],
+      "extra_config": {
+        "auth/signer": {
+          "alg": "HS256",
+          "kid": "bluebird.id",
+          "keys_to_sign": ["access_token", "refresh_token"],
+          "jwk_url": "http://auth-service:8081/auth/jwk",
+          "disable_jwk_security": true
+        }
+      }
     },
     {
       "endpoint": "/v1/auth/register",

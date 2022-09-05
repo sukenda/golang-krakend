@@ -11,6 +11,7 @@ import (
 	"github.com/sukenda/golang-krakend/auth-service/proto"
 	"github.com/sukenda/golang-krakend/auth-service/services"
 	"github.com/sukenda/golang-krakend/auth-service/utils"
+	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
@@ -57,9 +58,20 @@ func main() {
 	grpcL := cMux.Match(cmux.HTTP2(), cmux.HTTP2HeaderFieldPrefix("content-type", "application/grpc"))
 	httpL := cMux.Match(cmux.HTTP1Fast())
 
+	prvKey, err := ioutil.ReadFile("./config/id_rsa")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	pubKey, err := ioutil.ReadFile("./config/id_rsa.pub")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	jwtToken := utils.NewJWT(prvKey, pubKey)
 	authService := services.AuthService{
 		Database:   h,
 		JwtWrapper: jwt,
+		JWT:        jwtToken,
 	}
 
 	// Create your protocol servers.

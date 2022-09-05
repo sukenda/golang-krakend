@@ -34,9 +34,19 @@ message LoginRequest {
 
 message LoginResponse {
   int32 status = 1;
-  string access_token = 2 [json_name = "access_token"];
-  string refresh_token = 3 [json_name = "refresh_token"];
+  Token access_token = 2 [json_name = "access_token"];
+  Token refresh_token = 3 [json_name = "refresh_token"];
   int64 exp = 4;
+}
+
+message Token {
+  string aud = 1;
+  int64 exp = 2;
+  string jti = 3;
+  int64 iat = 4;
+  string iss = 5;
+  string sub = 6;
+  repeated string roles = 7;
 }
 
 // Validate
@@ -56,11 +66,9 @@ message JWKValidateResponse {
 }
 
 message JWK {
-  string alg = 1;
-  string kid = 2;
-  string use = 3;
-  string kty = 4;
-  string crv = 5;
-  string x = 6;
-  string y = 7;
+  string kty = 1;
+  string use = 2;
+  string kid = 3;
+  string k = 4;
+  string alg = 5;
 }

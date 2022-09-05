@@ -14,3 +14,6 @@ repository/*.out
 service/*.out
 *.out
 note.md
+
+/auth-service/config/id_rsa
+/auth-service/config/id_rsa.pub

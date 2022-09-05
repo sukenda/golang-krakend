@@ -150,25 +150,19 @@
     "authJWK": {
       "type": "object",
       "properties": {
-        "alg": {
-          "type": "string"
-        },
-        "kid": {
+        "kty": {
           "type": "string"
         },
         "use": {
           "type": "string"
         },
-        "kty": {
+        "kid": {
           "type": "string"
         },
-        "crv": {
+        "k": {
           "type": "string"
         },
-        "x": {
-          "type": "string"
-        },
-        "y": {
+        "alg": {
           "type": "string"
         }
       }
@@ -202,11 +196,11 @@
           "type": "integer",
           "format": "int32"
         },
-        "accessToken": {
-          "type": "string"
+        "access_token": {
+          "$ref": "#/definitions/authToken"
         },
-        "refreshToken": {
-          "type": "string"
+        "refresh_token": {
+          "$ref": "#/definitions/authToken"
         },
         "exp": {
           "type": "string",
@@ -234,6 +228,37 @@
         },
         "error": {
           "type": "string"
+        }
+      }
+    },
+    "authToken": {
+      "type": "object",
+      "properties": {
+        "aud": {
+          "type": "string"
+        },
+        "exp": {
+          "type": "string",
+          "format": "int64"
+        },
+        "jti": {
+          "type": "string"
+        },
+        "iat": {
+          "type": "string",
+          "format": "int64"
+        },
+        "iss": {
+          "type": "string"
+        },
+        "sub": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },

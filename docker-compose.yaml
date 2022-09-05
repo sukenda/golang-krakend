@@ -1,23 +1,6 @@
 version: '3.7'
 services:
 
-# Krakend Gateway
-  krakend:
-    container_name: krakend
-    build:
-      context: krakend
-      dockerfile: Dockerfile
-    volumes:
-      - ./krakend:/etc/krakend
-    ports:
-      - "8080:8080"
-    networks:
-      - backend
-    depends_on:
-      - auth-service
-      - product-service
-      - order-service
-
 # Postgres Service
   postgres:
     container_name: postgres
@@ -34,6 +17,23 @@ services:
     networks:
       - backend
     restart: unless-stopped
+
+# Krakend Gateway
+  krakend:
+    container_name: krakend
+    build:
+      context: krakend
+      dockerfile: Dockerfile
+    volumes:
+      - ./krakend:/etc/krakend
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    depends_on:
+      - auth-service
+      - product-service
+      - order-service
 
 # Auth Service
   auth-service:

@@ -14,6 +14,7 @@ type AuthService struct {
 	proto.UnimplementedAuthServiceServer
 	Database   database.Handler
 	JwtWrapper utils.JwtWrapper
+	JWT        utils.JWT
 }
 
 func (s *AuthService) Register(ctx context.Context, req *proto.RegisterRequest) (*proto.RegisterResponse, error) {
@@ -52,18 +53,31 @@ func (s *AuthService) Login(ctx context.Context, req *proto.LoginRequest) (*prot
 		}, nil
 	}
 
-	token, refresh, exp, err := s.JwtWrapper.GenerateToken(user)
+	/*token, refresh, exp, err := s.JwtWrapper.GenerateToken(user)
 	if err != nil {
 		return &proto.LoginResponse{
 			Status: http.StatusBadGateway,
 		}, nil
-	}
+	}*/
 
 	return &proto.LoginResponse{
-		Status:       http.StatusOK,
-		AccessToken:  token,
-		RefreshToken: refresh,
-		Exp:          exp,
+		Status: 200,
+		AccessToken: &proto.Token{
+			Aud:   "https://your.krakend.io",
+			Iss:   "https://your-backend",
+			Sub:   "1234567890qwertyuio",
+			Jti:   "mnb23vcsrt756yuiomnbvcx98ertyuiop",
+			Roles: []string{"pet", "admin"},
+			Exp:   1735689600,
+		},
+		RefreshToken: &proto.Token{
+			Aud:   "https://your.krakend.io",
+			Iss:   "https://your-backend",
+			Sub:   "1234567890qwertyuio",
+			Jti:   "mnb23vcsrt756yuiomnbvcx98ertyuiop",
+			Roles: []string{"pet", "admin"},
+			Exp:   1735689600,
+		},
 	}, nil
 }
 
@@ -96,29 +110,11 @@ func (s *AuthService) JWKValidate(ctx context.Context, req *emptypb.Empty) (*pro
 	return &proto.JWKValidateResponse{
 		Keys: []*proto.JWK{
 			{
-				Alg: "HS256",
+				Kty: "oct",
+				Use: "sig",
 				Kid: "bluebird.id",
-				Use: "enc",
-				Kty: "EC",
-				Crv: "P-256",
-				X:   "2xlQ_IYvfS1cUXTb3orNSxIJ8B8b7EcYDgdMkpyLmp8",
-				Y:   "MDSo0odLkrtNN13Hb7pAv1pOnGqYmqb0FgJpRTUUW0s",
-			},
-			{
+				K:   "pWn7Tu6Jz8EQ4eHFiGVgmroA4_ENLvqLAUnMxxPx4epMpRNQNtPp86DHBq-kU5Es4V5rk4O6cCD1pCS1-IMy_I_w9yeA5o6-AnK4iMSiXLa9_9RAygO3Xb2NMhlI6CDduTA85nhRbm8TCLOKZTTX2QRAn3yoGY1arw1HrST-FDusWjOmIfGggMa2GZ9MD1y1v0XFix7ACRyEqS7EgSOBgLo2HOJYEE-ZHrULUNhzCG8CljD7AyYPo3iaxZJcmDLZzoSsAsJMULcx5rQmFNjUGMlyGcsLDHklWj4UFKATKP3tZPBvxAJpKzUyFdJYGKzg8IUY6ZhLGqpEr09RcWbPpg",
 				Alg: "HS256",
-				Kid: "bluebird.id",
-				Kty: "EC",
-				Crv: "P-256",
-				X:   "nqqhD6gwxnGtj1U3cx_em4qEaI2EUXTnWP4W8d5VpOI",
-				Y:   "EzgfVjlaSluvcfWpmqYvGO_RObDPXCCIWmg7nIiFGew",
-			},
-			{
-				Alg: "HS256",
-				Kid: "bluebird.id",
-				Kty: "EC",
-				Crv: "P-256",
-				X:   "YRdzHwnDsxbUqhUYH-Hrz8R8vVXc_slU3P-k6uGAvyQ",
-				Y:   "inzssI5Sjk1MyXKM59t0WG377ouH3ZXr88C5_yhA4ak",
 			},
 		},
 	}, nil
