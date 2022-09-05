@@ -33,14 +33,15 @@ message LoginRequest {
 }
 
 message LoginResponse {
-  int64 status = 1;
-  string error = 2;
-  string token = 3;
+  int32 status = 1;
+  string access_token = 2 [json_name = "access_token"];
+  string refresh_token = 3 [json_name = "refresh_token"];
+  int64 exp = 4;
 }
 
 // Validate
 
-message ValidateRequest { string token = 1; }
+message ValidateRequest {string token = 1;}
 
 message ValidateResponse {
   int64 status = 1;
@@ -56,8 +57,10 @@ message JWKValidateResponse {
 
 message JWK {
   string alg = 1;
-  string typ = 2;
-  string kty = 3;
-  string use = 4;
-  string kid = 5;
+  string kid = 2;
+  string use = 3;
+  string kty = 4;
+  string crv = 5;
+  string x = 6;
+  string y = 7;
 }

@@ -42,24 +42,28 @@ func (s *AuthService) Login(ctx context.Context, req *proto.LoginRequest) (*prot
 	if result := s.Database.GormDb.Where(&models.User{Email: req.Email}).First(&user); result.Error != nil {
 		return &proto.LoginResponse{
 			Status: http.StatusNotFound,
-			Error:  "User not found",
 		}, nil
 	}
 
 	match := utils.CheckPasswordHash(req.Password, user.Password)
-
 	if !match {
 		return &proto.LoginResponse{
-			Status: http.StatusNotFound,
-			Error:  "User not found",
+			Status: http.StatusForbidden,
 		}, nil
 	}
 
-	token, _ := s.JwtWrapper.GenerateToken(user)
+	token, refresh, exp, err := s.JwtWrapper.GenerateToken(user)
+	if err != nil {
+		return &proto.LoginResponse{
+			Status: http.StatusBadGateway,
+		}, nil
+	}
 
 	return &proto.LoginResponse{
-		Status: http.StatusOK,
-		Token:  token,
+		Status:       http.StatusOK,
+		AccessToken:  token,
+		RefreshToken: refresh,
+		Exp:          exp,
 	}, nil
 }
 
@@ -93,10 +97,28 @@ func (s *AuthService) JWKValidate(ctx context.Context, req *emptypb.Empty) (*pro
 		Keys: []*proto.JWK{
 			{
 				Alg: "HS256",
-				Typ: "JWT",
-				Kty: "RSA",
-				Use: "sig",
-				Kid: s.JwtWrapper.Kid,
+				Kid: "bluebird.id",
+				Use: "enc",
+				Kty: "EC",
+				Crv: "P-256",
+				X:   "2xlQ_IYvfS1cUXTb3orNSxIJ8B8b7EcYDgdMkpyLmp8",
+				Y:   "MDSo0odLkrtNN13Hb7pAv1pOnGqYmqb0FgJpRTUUW0s",
+			},
+			{
+				Alg: "HS256",
+				Kid: "bluebird.id",
+				Kty: "EC",
+				Crv: "P-256",
+				X:   "nqqhD6gwxnGtj1U3cx_em4qEaI2EUXTnWP4W8d5VpOI",
+				Y:   "EzgfVjlaSluvcfWpmqYvGO_RObDPXCCIWmg7nIiFGew",
+			},
+			{
+				Alg: "HS256",
+				Kid: "bluebird.id",
+				Kty: "EC",
+				Crv: "P-256",
+				X:   "YRdzHwnDsxbUqhUYH-Hrz8R8vVXc_slU3P-k6uGAvyQ",
+				Y:   "inzssI5Sjk1MyXKM59t0WG377ouH3ZXr88C5_yhA4ak",
 			},
 		},
 	}, nil

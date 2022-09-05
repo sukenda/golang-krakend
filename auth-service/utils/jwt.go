@@ -21,26 +21,26 @@ type jwtClaims struct {
 	Email string `json:"email"`
 }
 
-func (w *JwtWrapper) GenerateToken(user models.User) (signedToken string, err error) {
+func (w *JwtWrapper) GenerateToken(user models.User) (accessToken, refreshToken string, exp int64, err error) {
+	valid := time.Now().Local().Add(time.Hour * time.Duration(w.ExpirationHours)).Unix()
 	claims := &jwtClaims{
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(w.ExpirationHours)).Unix(),
+			ExpiresAt: valid,
 			Issuer:    w.Issuer,
 		},
 		Id:    user.Id,
 		Email: user.Email,
 	}
 
-	token := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	token.Header["kid"] = w.Kid // This used for krakend and must same with kid on url /auth/jwk
 
-	signedToken, err = token.SignedString([]byte(w.SecretKey))
-
+	accessToken, err = token.SignedString([]byte(w.SecretKey))
 	if err != nil {
-		return "", err
+		return "", "", 0, err
 	}
 
-	return signedToken, nil
+	return accessToken, accessToken, valid, err
 }
 
 func (w *JwtWrapper) ValidateToken(signedToken string) (claims *jwtClaims, err error) {

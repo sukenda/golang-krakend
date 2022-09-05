@@ -7,6 +7,8 @@ services:
     build:
       context: krakend
       dockerfile: Dockerfile
+    volumes:
+      - ./krakend:/etc/krakend
     ports:
       - "8080:8080"
     networks:

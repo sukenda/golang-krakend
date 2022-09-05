@@ -153,16 +153,22 @@
         "alg": {
           "type": "string"
         },
-        "typ": {
-          "type": "string"
-        },
-        "kty": {
+        "kid": {
           "type": "string"
         },
         "use": {
           "type": "string"
         },
-        "kid": {
+        "kty": {
+          "type": "string"
+        },
+        "crv": {
+          "type": "string"
+        },
+        "x": {
+          "type": "string"
+        },
+        "y": {
           "type": "string"
         }
       }
@@ -193,14 +199,18 @@
       "type": "object",
       "properties": {
         "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "accessToken": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "exp": {
           "type": "string",
           "format": "int64"
-        },
-        "error": {
-          "type": "string"
-        },
-        "token": {
-          "type": "string"
         }
       }
     },

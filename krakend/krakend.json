@@ -5,8 +5,8 @@
   "cache_ttl": "300s",
   "name": "go-microservices",
   "plugin": {
-    "pattern": ".so",
-    "folder": "./tmp/plugins"
+    "pattern":".so",
+    "folder": "/etc/krakend/plugins/"
   },
   "extra_config": {},
   "endpoints": [
@@ -19,8 +19,7 @@
           "method": "POST",
           "host": [
             "http://auth-service:8081"
-          ],
-          "extra_config": {}
+          ]
         }
       ]
     },
@@ -67,15 +66,20 @@
     },
     {
       "endpoint": "/v1/product/create",
-      "input_headers": ["Authorization"],
       "method": "POST",
+      "output_encoding": "json",
       "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 5,
+          "client_max_rate": 1,
+          "strategy": "header",
+          "key": "Authorization"
+        },
         "auth/validator": {
           "alg": "HS256",
           "jwk_url": "http://auth-service:8081/auth/jwk",
-          "cache": true,
           "disable_jwk_security": true,
-          "operation_debug": true
+          "key_identify_strategy": "kid"
         }
       },
       "backend": [
