@@ -1,4 +1,4 @@
-POST http://localhost:8081/auth/jwk
+GET http://localhost:8081/auth/jwk
 Content-Type: application/json
 
 ###
