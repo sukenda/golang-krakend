@@ -18,28 +18,6 @@
   },
   "endpoints": [
     {
-      "endpoint": "/v1/auth/login",
-      "method": "POST",
-      "backend": [
-        {
-          "url_pattern": "/krakendio/playground-community/master/data/token.json",
-          "method": "GET",
-          "host": [
-            "https://raw.githubusercontent.com"
-          ]
-        }
-      ],
-      "extra_config": {
-        "auth/signer": {
-          "alg": "HS256",
-          "kid": "bluebird.id",
-          "keys_to_sign": ["access_token", "refresh_token"],
-          "jwk_url": "http://auth-service:8081/auth/jwk",
-          "disable_jwk_security": true
-        }
-      }
-    },
-    {
       "endpoint": "/v1/auth/register",
       "method": "POST",
       "backend": [
@@ -54,6 +32,28 @@
       ]
     },
     {
+      "endpoint": "/v1/auth/login",
+      "method": "POST",
+      "backend": [
+        {
+          "url_pattern": "/auth/login",
+          "method": "POST",
+          "host": [
+            "http://auth-service:8081"
+          ]
+        }
+      ],
+      "extra_config": {
+        "auth/signer": {
+          "alg": "HS256",
+          "kid": "bluebird.id",
+          "keys_to_sign": ["access_token", "refresh_token"],
+          "jwk_url": "http://auth-service:8081/auth/jwk",
+          "disable_jwk_security": true
+        }
+      }
+    },
+    {
       "endpoint": "/v1/auth/validate",
       "method": "POST",
       "backend": [
@@ -64,19 +64,6 @@
             "http://auth-service:8081"
           ],
           "extra_config": {}
-        }
-      ]
-    },
-    {
-      "endpoint": "/v1/order/create",
-      "method": "POST",
-      "backend": [
-        {
-          "url_pattern": "/order/create",
-          "method": "POST",
-          "host": [
-            "http://order-service:8082"
-          ]
         }
       ]
     },
@@ -112,6 +99,12 @@
       "endpoint": "/v1/product/find-one",
       "method": "GET",
       "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 5,
+          "client_max_rate": 1,
+          "strategy": "header",
+          "key": "Authorization"
+        },
         "auth/validator": {
           "alg": "HS256",
           "jwk_url": "http://auth-service:8081/auth/jwk",
@@ -132,12 +125,53 @@
     {
       "endpoint": "/v1/product/decrease-stock",
       "method": "POST",
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 5,
+          "client_max_rate": 1,
+          "strategy": "header",
+          "key": "Authorization"
+        },
+        "auth/validator": {
+          "alg": "HS256",
+          "jwk_url": "http://auth-service:8081/auth/jwk",
+          "disable_jwk_security": true,
+          "key_identify_strategy": "kid"
+        }
+      },
       "backend": [
         {
           "url_pattern": "/product/decrease-stock",
           "method": "POST",
           "host": [
             "http://product-service:8083"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/order/create",
+      "method": "POST",
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "max_rate": 5,
+          "client_max_rate": 1,
+          "strategy": "header",
+          "key": "Authorization"
+        },
+        "auth/validator": {
+          "alg": "HS256",
+          "jwk_url": "http://auth-service:8081/auth/jwk",
+          "disable_jwk_security": true,
+          "key_identify_strategy": "kid"
+        }
+      },
+      "backend": [
+        {
+          "url_pattern": "/order/create",
+          "method": "POST",
+          "host": [
+            "http://order-service:8082"
           ]
         }
       ]

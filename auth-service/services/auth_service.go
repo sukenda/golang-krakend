@@ -2,12 +2,14 @@ package services
 
 import (
 	"context"
+	"errors"
 	database "github.com/sukenda/golang-krakend/auth-service/database"
 	models "github.com/sukenda/golang-krakend/auth-service/model"
 	"github.com/sukenda/golang-krakend/auth-service/proto"
 	"github.com/sukenda/golang-krakend/auth-service/utils"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"net/http"
+	"time"
 )
 
 type AuthService struct {
@@ -41,43 +43,44 @@ func (s *AuthService) Login(ctx context.Context, req *proto.LoginRequest) (*prot
 	var user models.User
 
 	if result := s.Database.GormDb.Where(&models.User{Email: req.Email}).First(&user); result.Error != nil {
-		return &proto.LoginResponse{
-			Status: http.StatusNotFound,
-		}, nil
+		return nil, errors.New("user not found")
 	}
 
 	match := utils.CheckPasswordHash(req.Password, user.Password)
 	if !match {
-		return &proto.LoginResponse{
-			Status: http.StatusForbidden,
-		}, nil
+		return nil, errors.New("password not match")
 	}
 
-	/*token, refresh, exp, err := s.JwtWrapper.GenerateToken(user)
-	if err != nil {
-		return &proto.LoginResponse{
-			Status: http.StatusBadGateway,
-		}, nil
-	}*/
+	exp := time.Now().Local().Add(time.Hour * time.Duration(10)).Unix()
+	access := &proto.Token{
+		Aud: " http://auth-service:8081", // Auth service URL
+		Exp: float32(exp),
+		Sub: "1234567890qwertyuio",
+		Jti: "mnb23vcsrt756yuiomnbvcx98ertyuiop",
+		Iss: "http://localhost:8080", // Krakend URL
+		Claims: &proto.Claims{
+			UserId: user.ID.String(),
+			Email:  user.Email,
+			Roles:  []string{"role_a", "role_b"},
+		},
+	}
+
+	refresh := &proto.Token{
+		Sub: "1234567890qwertyuio",
+		Jti: "mnb23vcsrt756yuiomnbvcx98ertyuiop",
+		Aud: " http://auth-service:8081", // Auth service URL
+		Exp: float32(exp),
+		Iss: "http://localhost:8080", // Krakend URL
+		Claims: &proto.Claims{
+			UserId: user.ID.String(),
+			Email:  user.Email,
+		},
+	}
 
 	return &proto.LoginResponse{
-		Status: 200,
-		AccessToken: &proto.Token{
-			Aud:   "https://your.krakend.io",
-			Iss:   "https://your-backend",
-			Sub:   "1234567890qwertyuio",
-			Jti:   "mnb23vcsrt756yuiomnbvcx98ertyuiop",
-			Roles: []string{"pet", "admin"},
-			Exp:   1735689600,
-		},
-		RefreshToken: &proto.Token{
-			Aud:   "https://your.krakend.io",
-			Iss:   "https://your-backend",
-			Sub:   "1234567890qwertyuio",
-			Jti:   "mnb23vcsrt756yuiomnbvcx98ertyuiop",
-			Roles: []string{"pet", "admin"},
-			Exp:   1735689600,
-		},
+		Exp:          float32(exp),
+		AccessToken:  access,
+		RefreshToken: refresh,
 	}, nil
 }
 
@@ -102,7 +105,7 @@ func (s *AuthService) Validate(ctx context.Context, req *proto.ValidateRequest) 
 
 	return &proto.ValidateResponse{
 		Status: http.StatusOK,
-		UserId: user.Id,
+		UserId: user.ID.String(),
 	}, nil
 }
 

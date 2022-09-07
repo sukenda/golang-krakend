@@ -136,6 +136,23 @@
     }
   },
   "definitions": {
+    "authClaims": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "authJWK": {
       "type": "object",
       "properties": {
@@ -176,15 +193,12 @@
         "password": {
           "type": "string"
         }
-      }
+      },
+      "title": "Login"
     },
     "authLoginResponse": {
       "type": "object",
       "properties": {
-        "status": {
-          "type": "integer",
-          "format": "int32"
-        },
         "access_token": {
           "$ref": "#/definitions/authToken"
         },
@@ -192,8 +206,8 @@
           "$ref": "#/definitions/authToken"
         },
         "exp": {
-          "type": "string",
-          "format": "int64"
+          "type": "number",
+          "format": "float"
         }
       }
     },
@@ -205,8 +219,12 @@
         },
         "password": {
           "type": "string"
+        },
+        "profile": {
+          "type": "string"
         }
-      }
+      },
+      "title": "Register"
     },
     "authRegisterResponse": {
       "type": "object",
@@ -226,28 +244,21 @@
         "aud": {
           "type": "string"
         },
-        "exp": {
-          "type": "string",
-          "format": "int64"
-        },
-        "jti": {
-          "type": "string"
-        },
-        "iat": {
-          "type": "string",
-          "format": "int64"
-        },
         "iss": {
           "type": "string"
         },
         "sub": {
           "type": "string"
         },
-        "roles": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "jti": {
+          "type": "string"
+        },
+        "exp": {
+          "type": "number",
+          "format": "float"
+        },
+        "claims": {
+          "$ref": "#/definitions/authClaims"
         }
       }
     },
@@ -270,8 +281,7 @@
           "type": "string"
         },
         "userId": {
-          "type": "string",
-          "format": "int64"
+          "type": "string"
         }
       }
     },

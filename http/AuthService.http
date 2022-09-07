@@ -30,7 +30,8 @@ Content-Type: application/json
 
 {
   "email": "soekenda09@gmail.com",
-  "password": "sukenda"
+  "password": "sukenda",
+  "profile": "Kenda"
 }
 
 ###
@@ -47,5 +48,5 @@ POST http://localhost:8080/v1/auth/validate
 Content-Type: application/json
 
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTMxMjQ2NzAsImlzcyI6ImF1dGgtc2VydmljZSIsIklkIjoxLCJFbWFpbCI6InNvZWtlbmRhMDlAZ21haWwuY29tIn0.2UnvUE8jBShJjsGT-1qBQtjWq2TFZsfkjkZ8JM7ayg4"
+  "token": "eyJhbGciOiJIUzI1NiIsImtpZCI6ImJsdWViaXJkLmlkIn0.eyJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJleHAiOiIxNjYyNTQ4OTMzIiwiaWF0IjoiMCIsImlzcyI6Imh0dHA6Ly9hdXRoLXNlcnZpY2U6ODA4MSIsImp0aSI6Im1uYjIzdmNzcnQ3NTZ5dWlvbW5idmN4OThlcnR5dWlvcCIsInJvbGVzIjpbInJvbGVfYSIsInJvbGVfYiJdLCJzdWIiOiIxMjM0NTY3ODkwcXdlcnR5dWlvIn0.FddGSbnVralNw_--0LXrlCmb2L7zOdeU6JdrYo_Gm18"
 }

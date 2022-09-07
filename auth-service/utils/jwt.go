@@ -17,7 +17,7 @@ type JwtWrapper struct {
 
 type jwtClaims struct {
 	jwt.StandardClaims
-	Id    int64  `json:"id"`
+	Id    string `json:"id"`
 	Email string `json:"email"`
 }
 
@@ -28,7 +28,7 @@ func (w *JwtWrapper) GenerateToken(user models.User) (accessToken, refreshToken 
 			ExpiresAt: valid,
 			Issuer:    w.Issuer,
 		},
-		Id:    user.Id,
+		Id:    user.ID.String(),
 		Email: user.Email,
 	}
 

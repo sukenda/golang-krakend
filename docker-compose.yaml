@@ -50,8 +50,8 @@ services:
       - backend
     depends_on:
       - auth-service
-#      - product-service
-#      - order-service
+      - product-service
+      - order-service
 
 #Product Service
   product-service:
