@@ -16,4 +16,8 @@ protogen:
 	@protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative proto/auth.proto
 	@protoc --grpc-gateway_out=logtostderr=true,grpc_api_configuration=proto/auth.yaml:proto/. proto/auth.proto
 	@protoc --openapiv2_out=logtostderr=true,grpc_api_configuration=proto/auth.yaml:. proto/auth.proto
+
+	@protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative proto/signer.proto
+	@protoc --grpc-gateway_out=logtostderr=true,grpc_api_configuration=proto/signer.yaml:proto/. proto/signer.proto
+	@protoc --openapiv2_out=logtostderr=true,grpc_api_configuration=proto/signer.yaml:. proto/signer.proto
 	@echo "Done"

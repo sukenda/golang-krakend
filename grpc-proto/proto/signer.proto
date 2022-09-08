@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package signer;
+
+option go_package = "./;proto";
+
+service SignerService {
+  rpc GetJsonWebKey(google.protobuf.Empty) returns (GetJsonWebKeyResponse) {}
+}
+
+message GetJsonWebKeyResponse {
+  repeated JsonWebKey keys = 1;
+}
+
+message JsonWebKey {
+  string kty = 1;
+  string use = 2;
+  string kid = 3;
+  string k = 4;
+  string alg = 5;
+}
