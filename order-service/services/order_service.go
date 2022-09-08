@@ -2,10 +2,10 @@ package service
 
 import (
 	"context"
-	"github.com/sukenda/golang-krakend/order-service/client"
+	"github.com/sukenda/golang-krakend/grpc-proto/client"
+	"github.com/sukenda/golang-krakend/grpc-proto/proto"
 	database "github.com/sukenda/golang-krakend/order-service/database"
 	models "github.com/sukenda/golang-krakend/order-service/model"
-	"github.com/sukenda/golang-krakend/proto"
 	"net/http"
 )
 

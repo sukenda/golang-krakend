@@ -6,7 +6,7 @@ import (
 	database "github.com/sukenda/golang-krakend/auth-service/database"
 	models "github.com/sukenda/golang-krakend/auth-service/model"
 	"github.com/sukenda/golang-krakend/auth-service/utils"
-	"github.com/sukenda/golang-krakend/proto"
+	"github.com/sukenda/golang-krakend/grpc-proto/proto"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"net/http"
 	"time"

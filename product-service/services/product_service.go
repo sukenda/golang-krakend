@@ -2,9 +2,9 @@ package services
 
 import (
 	"context"
+	"github.com/sukenda/golang-krakend/grpc-proto/proto"
 	database "github.com/sukenda/golang-krakend/product-service/database"
 	"github.com/sukenda/golang-krakend/product-service/model"
-	"github.com/sukenda/golang-krakend/proto"
 	"net/http"
 )
 

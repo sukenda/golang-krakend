@@ -10,7 +10,7 @@ import (
 	db "github.com/sukenda/golang-krakend/auth-service/database"
 	"github.com/sukenda/golang-krakend/auth-service/services"
 	"github.com/sukenda/golang-krakend/auth-service/utils"
-	"github.com/sukenda/golang-krakend/proto"
+	"github.com/sukenda/golang-krakend/grpc-proto/proto"
 	"net"
 	"net/http"
 	"os"

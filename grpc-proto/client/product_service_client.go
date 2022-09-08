@@ -3,7 +3,7 @@ package client
 import (
 	"context"
 	"fmt"
-	"github.com/sukenda/golang-krakend/proto"
+	"github.com/sukenda/golang-krakend/grpc-proto/proto"
 
 	"google.golang.org/grpc"
 )
