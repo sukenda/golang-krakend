@@ -7,7 +7,6 @@ import (
 	models "github.com/sukenda/golang-krakend/auth-service/model"
 	"github.com/sukenda/golang-krakend/auth-service/utils"
 	"github.com/sukenda/golang-krakend/grpc-proto/proto"
-	"google.golang.org/protobuf/types/known/emptypb"
 	"net/http"
 	"time"
 )
@@ -53,10 +52,10 @@ func (s *AuthService) Login(ctx context.Context, req *proto.LoginRequest) (*prot
 
 	exp := time.Now().Local().Add(time.Hour * time.Duration(10)).Unix()
 	access := &proto.Token{
+		Sub: user.ID.String(),
+		Jti: user.ID.String(),
 		Aud: " http://auth-service:8081", // Auth service URL
 		Exp: float32(exp),
-		Sub: "1234567890qwertyuio",
-		Jti: "mnb23vcsrt756yuiomnbvcx98ertyuiop",
 		Iss: "http://localhost:8080", // Krakend URL
 		Claims: &proto.Claims{
 			UserId: user.ID.String(),
@@ -66,8 +65,8 @@ func (s *AuthService) Login(ctx context.Context, req *proto.LoginRequest) (*prot
 	}
 
 	refresh := &proto.Token{
-		Sub: "1234567890qwertyuio",
-		Jti: "mnb23vcsrt756yuiomnbvcx98ertyuiop",
+		Sub: user.ID.String(),
+		Jti: user.ID.String(),
 		Aud: " http://auth-service:8081", // Auth service URL
 		Exp: float32(exp),
 		Iss: "http://localhost:8080", // Krakend URL
@@ -106,19 +105,5 @@ func (s *AuthService) Validate(ctx context.Context, req *proto.ValidateRequest) 
 	return &proto.ValidateResponse{
 		Status: http.StatusOK,
 		UserId: user.ID.String(),
-	}, nil
-}
-
-func (s *AuthService) JWKValidate(ctx context.Context, req *emptypb.Empty) (*proto.JWKValidateResponse, error) {
-	return &proto.JWKValidateResponse{
-		Keys: []*proto.JWK{
-			{
-				Kty: "oct",
-				Use: "sig",
-				Kid: "bluebird.id",
-				K:   "pWn7Tu6Jz8EQ4eHFiGVgmroA4_ENLvqLAUnMxxPx4epMpRNQNtPp86DHBq-kU5Es4V5rk4O6cCD1pCS1-IMy_I_w9yeA5o6-AnK4iMSiXLa9_9RAygO3Xb2NMhlI6CDduTA85nhRbm8TCLOKZTTX2QRAn3yoGY1arw1HrST-FDusWjOmIfGggMa2GZ9MD1y1v0XFix7ACRyEqS7EgSOBgLo2HOJYEE-ZHrULUNhzCG8CljD7AyYPo3iaxZJcmDLZzoSsAsJMULcx5rQmFNjUGMlyGcsLDHklWj4UFKATKP3tZPBvxAJpKzUyFdJYGKzg8IUY6ZhLGqpEr09RcWbPpg",
-				Alg: "HS256",
-			},
-		},
 	}, nil
 }

@@ -18,6 +18,22 @@ services:
       - backend
     restart: unless-stopped
 
+# Signer Service
+  signer-service:
+    container_name: signer-service
+    build:
+      context: signer-service # this representation go project name
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8084"
+    environment:
+      PORT: 8084
+      DB_URL: postgres://sukenda:sukenda@postgres:5432/sukenda
+      JWT_SECRET_KEY: r43t18sc
+    networks:
+      - backend
+    depends_on:
+      - postgres
 
 # Auth Service
   auth-service:
@@ -52,6 +68,7 @@ services:
       - auth-service
       - product-service
       - order-service
+      - signer-service
 
 #Product Service
   product-service:

@@ -12,5 +12,3 @@ http:
     - selector: auth.AuthService.Validate
       post: "/auth/validate"
       body: "*"
-    - selector: auth.AuthService.JWKValidate
-      get: "/auth/jwk"

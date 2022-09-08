@@ -16,28 +16,6 @@
     "application/json"
   ],
   "paths": {
-    "/auth/jwk": {
-      "get": {
-        "operationId": "AuthService_JWKValidate",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/authJWKValidateResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "tags": [
-          "AuthService"
-        ]
-      }
-    },
     "/auth/login": {
       "post": {
         "operationId": "AuthService_Login",
@@ -149,37 +127,6 @@
           "type": "array",
           "items": {
             "type": "string"
-          }
-        }
-      }
-    },
-    "authJWK": {
-      "type": "object",
-      "properties": {
-        "kty": {
-          "type": "string"
-        },
-        "use": {
-          "type": "string"
-        },
-        "kid": {
-          "type": "string"
-        },
-        "k": {
-          "type": "string"
-        },
-        "alg": {
-          "type": "string"
-        }
-      }
-    },
-    "authJWKValidateResponse": {
-      "type": "object",
-      "properties": {
-        "keys": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/authJWK"
           }
         }
       }

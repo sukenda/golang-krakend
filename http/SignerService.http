@@ -1,0 +1,2 @@
+GET http://localhost:8084/sign/json-web-key
+Content-Type: application/json

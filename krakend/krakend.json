@@ -48,7 +48,7 @@
           "alg": "HS256",
           "kid": "bluebird.id",
           "keys_to_sign": ["access_token", "refresh_token"],
-          "jwk_url": "http://auth-service:8081/auth/jwk",
+          "jwk_url": "http://signer-service:8084/sign/json-web-key",
           "disable_jwk_security": true
         }
       }
@@ -80,7 +80,7 @@
         },
         "auth/validator": {
           "alg": "HS256",
-          "jwk_url": "http://auth-service:8081/auth/jwk",
+          "jwk_url": "http://signer-service:8084/sign/json-web-key",
           "disable_jwk_security": true,
           "key_identify_strategy": "kid"
         }
@@ -98,6 +98,9 @@
     {
       "endpoint": "/v1/product/find-one",
       "method": "GET",
+      "input_query_strings": [
+        "id"
+      ],
       "extra_config": {
         "qos/ratelimit/router": {
           "max_rate": 5,
@@ -107,7 +110,7 @@
         },
         "auth/validator": {
           "alg": "HS256",
-          "jwk_url": "http://auth-service:8081/auth/jwk",
+          "jwk_url": "http://signer-service:8084/sign/json-web-key",
           "disable_jwk_security": true,
           "key_identify_strategy": "kid"
         }
@@ -134,7 +137,7 @@
         },
         "auth/validator": {
           "alg": "HS256",
-          "jwk_url": "http://auth-service:8081/auth/jwk",
+          "jwk_url": "http://signer-service:8084/sign/json-web-key",
           "disable_jwk_security": true,
           "key_identify_strategy": "kid"
         }
@@ -161,7 +164,7 @@
         },
         "auth/validator": {
           "alg": "HS256",
-          "jwk_url": "http://auth-service:8081/auth/jwk",
+          "jwk_url": "http://signer-service:8084/sign/json-web-key",
           "disable_jwk_security": true,
           "key_identify_strategy": "kid"
         }

@@ -12,7 +12,7 @@ type SignerService struct {
 
 func (s *SignerService) GetJsonWebKey(ctx context.Context, req *emptypb.Empty) (*proto.GetJsonWebKeyResponse, error) {
 	return &proto.GetJsonWebKeyResponse{
-		Keys: []*proto.JWK{
+		Keys: []*proto.JsonWebKey{
 			{
 				Kty: "oct",
 				Use: "sig",

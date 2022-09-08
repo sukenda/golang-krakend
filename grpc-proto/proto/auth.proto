@@ -1,7 +1,5 @@
 syntax = "proto3";
 
-import "google/protobuf/empty.proto";
-
 package auth;
 
 option go_package = "./;proto";
@@ -10,7 +8,6 @@ service AuthService {
   rpc Register(RegisterRequest) returns (RegisterResponse) {}
   rpc Login(LoginRequest) returns (LoginResponse) {}
   rpc Validate(ValidateRequest) returns (ValidateResponse) {}
-  rpc JWKValidate(google.protobuf.Empty) returns (JWKValidateResponse) {}
 }
 
 // Register
@@ -60,18 +57,4 @@ message ValidateResponse {
   int64 status = 1;
   string error = 2;
   string user_id = 3;
-}
-
-// JWKValidateResponse
-
-message JWKValidateResponse {
-  repeated JWK keys = 1;
-}
-
-message JWK {
-  string kty = 1;
-  string use = 2;
-  string kid = 3;
-  string k = 4;
-  string alg = 5;
 }
