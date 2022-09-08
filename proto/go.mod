@@ -1,6 +1,6 @@
-module github.com/sukenda/golang-krakend
+module github.com/sukenda/golang-krakend/proto
 
-go 1.16
+go 1.17
 
 require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.3

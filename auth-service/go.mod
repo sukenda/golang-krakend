@@ -8,6 +8,7 @@ require (
 	github.com/sirupsen/logrus v1.6.0
 	github.com/soheilhy/cmux v0.1.5
 	github.com/spf13/viper v1.12.0
+	github.com/sukenda/golang-krakend v0.0.0-20220907084540-5f66dfce5dbc
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4
 	google.golang.org/grpc v1.48.0
 	google.golang.org/protobuf v1.28.1
