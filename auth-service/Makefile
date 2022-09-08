@@ -10,6 +10,9 @@ generate:
 	@protoc --openapiv2_out=logtostderr=true,grpc_api_configuration=proto/auth.yaml:. proto/auth.proto
 	@echo "Done"
 
+gomod:
+	rm -rf vendor && rm -rf go.sum && go mod tidy && go mod vendor
+
 run:
 	go run main.go
 
