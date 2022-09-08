@@ -5,7 +5,7 @@ import (
 	"github.com/sukenda/golang-krakend/order-service/client"
 	database "github.com/sukenda/golang-krakend/order-service/database"
 	models "github.com/sukenda/golang-krakend/order-service/model"
-	"github.com/sukenda/golang-krakend/order-service/proto"
+	"github.com/sukenda/golang-krakend/proto"
 	"net/http"
 )
 

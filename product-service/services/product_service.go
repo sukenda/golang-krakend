@@ -4,7 +4,7 @@ import (
 	"context"
 	database "github.com/sukenda/golang-krakend/product-service/database"
 	"github.com/sukenda/golang-krakend/product-service/model"
-	"github.com/sukenda/golang-krakend/product-service/proto"
+	"github.com/sukenda/golang-krakend/proto"
 	"net/http"
 )
 
